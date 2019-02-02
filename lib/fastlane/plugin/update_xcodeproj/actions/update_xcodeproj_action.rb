@@ -10,12 +10,11 @@ module Fastlane
         project_path = params[:xcodeproj]
         project = Xcodeproj::Project.open(project_path)
 
-        options.each do |key, value|
-          configs = project.objects.select { |obj| obj.isa == 'XCBuildConfiguration' && !obj.build_settings[key.to_s].nil? }
-          #UI.user_error!("Xcodeproj does not use #{key}") if configs.count.zero?
-
-          configs.each do |c|
-            c.build_settings[key.to_s] = value
+        project.targets.each do |target|
+          target.build_configurations.each do |c|
+             options.each do |key, value|
+                c.build_settings[key.to_s] = value
+             end
           end
         end
 
