@@ -13,7 +13,7 @@ module Fastlane
         project.targets.each do |target|
           target.build_configurations.each do |c|
              options.each do |key, value|
-                c.build_settings[key.to_s] = value
+                c.build_settings[key.to_s] ||= value
              end
           end
         end
