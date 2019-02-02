@@ -10,12 +10,8 @@ module Fastlane
         project_path = params[:xcodeproj]
         project = Xcodeproj::Project.open(project_path)
 
-        project.targets.each do |target|
-          target.build_configurations.each do |c|
-             options.each do |key, value|
-                c.build_settings[key.to_s] ||= value
-             end
-          end
+        options.each do |key, value|
+          project.build_configuration_list.set_setting(key.to_s, value)
         end
 
         project.save
